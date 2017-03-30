@@ -21,9 +21,14 @@ if rank==0:
 	data_raw=linecache.getlines(filename)
 	data=[]
 	for line in data_raw:
-		if bool(re.search(r'"full_name":"(Melbourne|Victoria)', line)):
-			line_json=json.loads(line[:-2])
-			data.append(line_json["json"]["coordinates"]["coordinates"])
+		try:
+			line_json = json.loads(line[:-2])
+		# if bool(re.search(r'"full_name":"(Melbourne|Victoria)', line)):
+			cdn=line_json["json"]["coordinates"]["coordinates"]
+			if gB(cdn)is not None:
+				data.append(cdn)
+		except:
+			pass
 	data=np.array_split(data,size)
 	print("Master 0 is preparing for scattering")
 else:
