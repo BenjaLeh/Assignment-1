@@ -19,7 +19,7 @@ if rank==0:
 	data_raw=linecache.getlines("tinyTwitter.json")
 	data=[]
 	for line in data_raw:
-		if bool(re.search("Melbourne",line)):
+		if bool(re.search(r'"full_name":"(Melbourne|Victoria)', line)):
 			line_json=json.loads(line[:-2])
 			data.append(line_json["json"]["coordinates"]["coordinates"])
 	data=np.array_split(data,size)
