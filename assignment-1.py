@@ -1,3 +1,4 @@
+import sys
 from mpi4py import MPI
 import json
 import linecache
@@ -11,12 +12,13 @@ from functools import reduce
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
 rank = comm.Get_rank()
+filename=sys.argv[1]
 print("Generating rank",rank,"of",size)
 # comm.Barrier()
 
 #_____Master-proc pre-processing data_____
 if rank==0:
-	data_raw=linecache.getlines("tinyTwitter.json")
+	data_raw=linecache.getlines(filename)
 	data=[]
 	for line in data_raw:
 		if bool(re.search(r'"full_name":"(Melbourne|Victoria)', line)):
